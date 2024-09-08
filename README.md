@@ -1,8 +1,10 @@
 # MFTM-Algo
 Alignment Algorithm for MFTM
 
-## Current ICP
-point_cloud_registration_icp_V2.py
+## Current best ICP
+icp_with _y_constraint.py  
+o3d.pipelines.registration.RANSACConvergenceCriteria(max_iteration=2000000, confidence=1)  
+// increase max_iteration for more accuracy
 
 ## Current Best xyz
 usd2xyzV2.1.py (change file path before running this)
