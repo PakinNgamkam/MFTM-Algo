@@ -86,13 +86,21 @@ def draw_registration_result(source, target, transformation):
     # Apply the transformation to the source point cloud
     source_temp.transform(transformation)
 
-    # Create a larger sphere at the origin (0, 0, 0) of the transformed source point cloud
+    # Create a sphere at the transformed origin (0, 0, 0)
+    # Define the original origin point
+    origin_point = np.array([0, 0, 0, 1])  # Homogeneous coordinates [x, y, z, 1]
+
+    # Apply the transformation to the origin point
+    transformed_origin = np.dot(transformation, origin_point)
+
+    # Create a larger sphere at the transformed origin point
     sphere = o3d.geometry.TriangleMesh.create_sphere(radius=0.15)  # Increase the radius to 0.15
-    sphere.translate((0, 0, 0))  # Sphere at origin of the source point cloud
+    sphere.translate(transformed_origin[:3])  # Sphere at the transformed origin (x, y, z)
     sphere.paint_uniform_color([0, 0, 1])  # Blue for the origin marker
 
     # Draw both the source, target, and the origin marker
     o3d.visualization.draw_geometries([source_temp, target_temp, sphere])
+
 
 # Main function where the registration pipeline runs
 def main():
@@ -101,8 +109,9 @@ def main():
     voxel_size_fine = 0.25
 
     source = o3d.io.read_point_cloud("sameSpotNorth_usd2xyzV2.1.xyz")
-    # source = o3d.io.read_point_cloud("SameSpotWestV2.1.xyz")
+    # source = o3d.io.read_point_cloud("firstFloorSouthNoSofa.xyz")
     target = o3d.io.read_point_cloud("firstFloorSouth_usd2xyzV2.1.xyz")
+    # target = o3d.io.read_point_cloud("xz_firstFloorSouthNoFurniture.xyz")
 
     # Coarse registration
     source_down_coarse, source_fpfh_coarse = preprocess_point_cloud(source, voxel_size_coarse)
@@ -127,7 +136,7 @@ def main():
     
     # Draw the final result with the constrained transformation
     draw_registration_result(source, target, icp_result.transformation)
-
+    # draw_registration_result(source, target, global_result_medium.transformation)
 
 if __name__ == "__main__":
     main()
