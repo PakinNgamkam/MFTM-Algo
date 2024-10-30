@@ -64,6 +64,6 @@ def usdz_to_xyz(usdz_file_path, output_xyz_file_path, step_size=0.1):
     print(f"Conversion completed. Output saved to {output_xyz_file_path}")
 
 # Example usage
-usdz_file_path = 'C:/Users/pakin/OneDrive/Desktop/test/room1_test.usdz'
-output_xyz_file_path = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/room1_test_even.xyz'
+usdz_file_path = 'C:/Users/pakin/OneDrive/Desktop/test/room1_testcase5.usdz'
+output_xyz_file_path = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/room1_testcase5_even.xyz'
 usdz_to_xyz(usdz_file_path, output_xyz_file_path, step_size=0.25)  # Distribute points every 0.1 meters along edges
