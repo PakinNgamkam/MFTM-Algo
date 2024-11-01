@@ -264,11 +264,12 @@ def calculate_pixels_per_unit_from_image(image_path, range_x, range_z, error_pix
 
     return final_pixels_per_unit
 
-xyz_file_path_blueprint = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/room1(2)_even.xyz'
-xyz_file_path_scan = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/room1_testcase5_even.xyz'
-output_image_path_blueprint = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/room1(2)_even_output.png'
-output_image_path_scan = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/room1_testcase5_even_output.png'
-output_image_path_error_pixels = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/room1(2)_even_error_pixels.png'
+xyz_file_path_blueprint = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/firstFloorSouth_even.xyz' # secondFloor_even.xyz' # firstFloorSouth_even.xyz' # room1(2)_even.xyz'
+xyz_file_path_scan = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/KitchenNorth_even.xyz' # SameSpotWest_even.xyz' # KitchenNorth_even.xyz' # RoomSecondFloor_even.xyz' # room1_testcase5_even.xyz'
+output_image_path_blueprint = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/firstFloorSouth_even_output.png' # firstFloorSouth_even_output.png' # secondFloor_even_output.png' # room1(2)_even_output.png'
+output_image_path_scan = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/KitchenNorth_even_output.png' # SameSpotWest_even_output.png' # KitchenNorth_even_output.png' # RoomSecondFloor_even_output.png' # room1_testcase5_even_output.png'
+output_image_path_error_pixels = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/error_pixels.png'
+aligned_image_path = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/aligned.png'
 
 # Read the blueprint data and get the bounding box
 blueprint_points = read_xyz(xyz_file_path_blueprint)
@@ -374,51 +375,129 @@ aligned_img1_with_center, img2_with_center, center_vector, transformed_center_im
     output_image_path_scan, output_image_path_blueprint, transformation_matrix
 )
 
-print("Original Transformation Matrix:")
-print(f"[{transformation_matrix[0, 0]}, {transformation_matrix[0, 1]}, {transformation_matrix[0, 2]}],")
-print(f"[{transformation_matrix[1, 0]}, {transformation_matrix[1, 1]}, {transformation_matrix[1, 2]}]")
+# print("Original Transformation Matrix:")
+# print(f"[{transformation_matrix[0, 0]}, {transformation_matrix[0, 1]}, {transformation_matrix[0, 2]}],")
+# print(f"[{transformation_matrix[1, 0]}, {transformation_matrix[1, 1]}, {transformation_matrix[1, 2]}]")
 
-# Print the vector difference between centers
-print(f"Vector difference between centers (dx, dy): {center_vector}")
+# # Print the vector difference between centers
+# print(f"Vector difference between centers (dx, dy): {center_vector}")
 
 # Create the transformation matrix for XYZ file with adjusted tx and ty
 xyz_transformation_matrix = transformation_matrix.copy()
 xyz_transformation_matrix[0, 2] = -center_vector[0]
 xyz_transformation_matrix[1, 2] = -center_vector[1]
 
-print("Transformation Matrix for XYZ file:")
-print(f"[{xyz_transformation_matrix[0, 0]}, {xyz_transformation_matrix[0, 1]}, {xyz_transformation_matrix[0, 2]}],")
-print(f"[{xyz_transformation_matrix[1, 0]}, {xyz_transformation_matrix[1, 1]}, {xyz_transformation_matrix[1, 2]}]")
+# print("Transformation Matrix for XYZ file:")
+# print(f"[{xyz_transformation_matrix[0, 0]}, {xyz_transformation_matrix[0, 1]}, {xyz_transformation_matrix[0, 2]}],")
+# print(f"[{xyz_transformation_matrix[1, 0]}, {xyz_transformation_matrix[1, 1]}, {xyz_transformation_matrix[1, 2]}]")
 
-# Blend the aligned image with the reference image for visualization
-alpha = 0.5  # Adjust the opacity level as needed
-blended_image = cv2.addWeighted(aligned_img1_with_center, alpha, img2_with_center, 1 - alpha, 0)
+# # Blend the aligned image with the reference image for visualization
+# alpha = 0.5  # Adjust the opacity level as needed
+# blended_image = cv2.addWeighted(aligned_img1_with_center, alpha, img2_with_center, 1 - alpha, 0)
 
-# Display the blended result with centers
-plt.figure(figsize=(6, 6))
+# # Display the blended result with centers
+# plt.figure(figsize=(6, 6))
 
-# Plot blended image with marked centers
-plt.imshow(cv2.cvtColor(blended_image, cv2.COLOR_BGR2RGB))
-plt.scatter(transformed_center_img1[0], transformed_center_img1[1], color='red', s=100, marker='x', label='Aligned Center')
-plt.title("Blended Image with Centers After Alignment")
-plt.legend()
-plt.axis('off')
-plt.savefig('aligned_image.png', bbox_inches='tight', pad_inches=0)
-plt.show()
+# # Plot blended image with marked centers
+# plt.imshow(cv2.cvtColor(blended_image, cv2.COLOR_BGR2RGB))
+# plt.scatter(transformed_center_img1[0], transformed_center_img1[1], color='red', s=100, marker='x', label='Aligned Center')
+# plt.title("Blended Image with Centers After Alignment")
+# plt.legend()
+# plt.axis('off')
+# plt.savefig('aligned_image.png', bbox_inches='tight', pad_inches=0)
+# plt.show()
 
 ########################### 3rd part ########################################
-import pyvista as pv
+# import pyvista as pv
 
-# Function has been defined
-# def read_xyz(file_path):
-#     """Read XYZ data from a file and return a NumPy array."""
-#     points = []
-#     with open(file_path, 'r') as f:
-#         for line in f:
-#             x, y, z = map(float, line.strip().split())
-#             points.append((x, y, z))
-#     return np.array(points)
+# # Function has been defined
+# # def read_xyz(file_path):
+# #     """Read XYZ data from a file and return a NumPy array."""
+# #     points = []
+# #     with open(file_path, 'r') as f:
+# #         for line in f:
+# #             x, y, z = map(float, line.strip().split())
+# #             points.append((x, y, z))
+# #     return np.array(points)
 
+# def transform_point_cloud_without_x_inversion(points, transformation_matrix_3d):
+#     """
+#     Applies a 3D transformation matrix to a point cloud without X-axis inversion.
+#     :param points: An Nx3 NumPy array of (X, Y, Z) coordinates.
+#     :param transformation_matrix_3d: A 3x4 transformation matrix for 3D transformation.
+#     :return: Transformed Nx3 NumPy array of (X, Y, Z) coordinates.
+#     """
+#     # Step 1: Add a column of ones to the points to enable matrix multiplication with the transformation matrix
+#     num_points = points.shape[0]
+#     homogeneous_points = np.hstack((points, np.ones((num_points, 1))))
+
+#     # Step 2: Apply the transformation matrix to the points
+#     transformed_points = homogeneous_points @ transformation_matrix_3d.T
+
+#     # Return only the first three columns (X, Y, Z) from the transformed points
+#     return transformed_points[:, :3]
+
+# def visualize_point_clouds_with_grid(pcd1, pcd2, original_scan, transformed_origin):
+#     """Visualize two point clouds, a transformed origin point, and a grid in PyVista."""
+#     plotter = pv.Plotter()
+
+#     # Add the first point cloud (blueprint)
+#     plotter.add_points(pcd1, color='blue', point_size=5.0, render_points_as_spheres=True, label='Blueprint')
+
+#     # Add the second point cloud (transformed scan)
+#     plotter.add_points(pcd2, color='red', point_size=5.0, render_points_as_spheres=True, label='Transformed Scan')
+
+#     # Add the original scan point cloud (for reference)
+#     # plotter.add_points(original_scan, color='green', point_size=5.0, render_points_as_spheres=True, label='Original Scan')
+
+#     # Add the transformed origin point (in magenta)
+#     plotter.add_points(np.array([transformed_origin]), color='magenta', point_size=15.0, render_points_as_spheres=True, label='Transformed Origin')
+
+#     # Display the axes
+#     plotter.show_grid()
+
+#     # Add a legend
+#     plotter.add_legend()
+
+#     # Show the plot interactively
+#     plotter.show()
+
+# def apply_transformation_and_visualize(blueprint_file, scan_file, scale_factor, transformation_matrix_2d):
+#     """Apply a 3D transformation to the scan point cloud and visualize both point clouds."""
+#     # Step 1: Read both XYZ files
+#     blueprint_points = read_xyz(blueprint_file)
+#     scan_points = read_xyz(scan_file)
+
+#     # Step 2: Create the 3D transformation matrix based on the 2D matrix and scale factor
+#     # Map the transformation from XY to XZ (i.e., switch Y with Z)
+#     transformation_matrix_3d = np.array([
+#         [transformation_matrix_2d[0][0], 0, transformation_matrix_2d[0][1], transformation_matrix_2d[0][2] / scale_factor],
+#         [0, 1, 0, 0],  # No change in the Y (height) axis
+#         [transformation_matrix_2d[1][0], 0, transformation_matrix_2d[1][1], transformation_matrix_2d[1][2] / scale_factor]
+#     ])
+
+#     # Print the resulting 3D transformation matrix
+#     print("Resulting 3D Transformation Matrix:")
+#     print(transformation_matrix_3d)
+
+#     # Step 3: Apply the transformation to the scan point cloud without X-axis inversion
+#     transformed_scan_points = transform_point_cloud_without_x_inversion(scan_points, transformation_matrix_3d)
+
+#     # Step 4: Calculate the transformed origin point (0, 0, 0)
+#     origin = np.array([0, 0, 0, 1])  # Homogeneous coordinates for the origin
+#     transformed_origin = transformation_matrix_3d @ origin.T
+
+#     # Print the transformed origin point
+#     print(f"Transformed Origin Point: {transformed_origin[:3]}")
+
+#     # Step 5: Visualize the point clouds, grid, and transformed origin point using PyVista
+#     visualize_point_clouds_with_grid(blueprint_points, transformed_scan_points, scan_points, transformed_origin[:3])
+
+# # Apply the transformation and visualize
+# apply_transformation_and_visualize(xyz_file_path_blueprint, xyz_file_path_scan, scale_factor, xyz_transformation_matrix)
+
+###############################################################################################################################
+                   
 def transform_point_cloud_without_x_inversion(points, transformation_matrix_3d):
     """
     Applies a 3D transformation matrix to a point cloud without X-axis inversion.
@@ -426,52 +505,76 @@ def transform_point_cloud_without_x_inversion(points, transformation_matrix_3d):
     :param transformation_matrix_3d: A 3x4 transformation matrix for 3D transformation.
     :return: Transformed Nx3 NumPy array of (X, Y, Z) coordinates.
     """
-    # Step 1: Add a column of ones to the points to enable matrix multiplication with the transformation matrix
     num_points = points.shape[0]
     homogeneous_points = np.hstack((points, np.ones((num_points, 1))))
-
-    # Step 2: Apply the transformation matrix to the points
     transformed_points = homogeneous_points @ transformation_matrix_3d.T
-
-    # Return only the first three columns (X, Y, Z) from the transformed points
     return transformed_points[:, :3]
 
-def visualize_point_clouds_with_grid(pcd1, pcd2, original_scan, transformed_origin):
-    """Visualize two point clouds, a transformed origin point, and a grid in PyVista."""
-    plotter = pv.Plotter()
+def visualize_point_clouds_with_grid(pcd1, pcd2, transformed_origin, direction_vector, output_path):
+    """Visualize two point clouds and a rotated arrow at the transformed origin point in a bird's-eye (XZ) view using Matplotlib."""
+    plt.figure(figsize=(10, 10))
+    
+    # Plot the first point cloud (blueprint) in blue
+    plt.scatter(pcd1[:, 0], pcd1[:, 2], color='blue', s=5, label='Blueprint')
+    
+    # Plot the transformed scan point cloud in red
+    plt.scatter(pcd2[:, 0], pcd2[:, 2], color='red', s=5, label='Transformed Scan')
+    
+    # Define arrowhead parameters for a minimal line segment
+    arrow_length = 0.005 * (pcd1[:, 0].max() - pcd1[:, 0].min())  # Minimal arrow length just to display the head
+    head_width = arrow_length * 5  # Large enough width to make the head noticeable
+    head_length = arrow_length * 5  # Large enough length to make the head noticeable
 
-    # Add the first point cloud (blueprint)
-    plotter.add_points(pcd1, color='blue', point_size=5.0, render_points_as_spheres=True, label='Blueprint')
+    # Format the transformed origin coordinates to two decimal places
+    transformed_origin_coords = f"({transformed_origin[0]:.2f}, {transformed_origin[2]:.2f})"
 
-    # Add the second point cloud (transformed scan)
-    plotter.add_points(pcd2, color='red', point_size=5.0, render_points_as_spheres=True, label='Transformed Scan')
+    # Plot only the arrowhead at the transformed origin with minimal extension
+    plt.arrow(
+        transformed_origin[0],  # Starting X position (transformed origin)
+        transformed_origin[2],  # Starting Z position (transformed origin)
+        direction_vector[0] * arrow_length,  # Minimal X component for the arrow direction
+        direction_vector[2] * arrow_length,  # Minimal Z component for the arrow direction
+        head_width=head_width, 
+        head_length=head_length, 
+        fc='magenta', 
+        ec='magenta', 
+        label=f'Current Location {transformed_origin_coords}'  # Display coordinates in the label
+    )
 
-    # Add the original scan point cloud (for reference)
-    # plotter.add_points(original_scan, color='green', point_size=5.0, render_points_as_spheres=True, label='Original Scan')
+    # Flip the X-axis so negative is on the right
+    plt.gca().invert_xaxis()
+    
+    # Set equal scaling for X and Z axes and maintain a square aspect ratio
+    plt.axis('equal')
+    plt.gca().set_aspect('equal', adjustable='box')
+    
+    # Add labels, grid, and title
+    plt.xlabel("X")  # Flipped
+    plt.ylabel("Z")
+    plt.grid(True)
 
-    # Add the transformed origin point (in magenta)
-    plotter.add_points(np.array([transformed_origin]), color='magenta', point_size=15.0, render_points_as_spheres=True, label='Transformed Origin')
+    # Move legend to the top-right corner, outside the plot area
+    plt.legend(loc='upper right', bbox_to_anchor=(1.1, 1.05))
 
-    # Display the axes
-    plotter.show_grid()
+    # Save the plot as a PNG file
+    plt.savefig(output_path, bbox_inches='tight', pad_inches=0.1)
 
-    # Add a legend
-    plotter.add_legend()
+    # Display the plot
+    plt.show()
 
-    # Show the plot interactively
-    plotter.show()
-
-def apply_transformation_and_visualize(blueprint_file, scan_file, scale_factor, transformation_matrix_2d):
+def apply_transformation_and_visualize(blueprint_file, scan_file, aligned_image_file, scale_factor, transformation_matrix_2d):
     """Apply a 3D transformation to the scan point cloud and visualize both point clouds."""
-    # Step 1: Read both XYZ files
+    # Read both XYZ files
     blueprint_points = read_xyz(blueprint_file)
     scan_points = read_xyz(scan_file)
 
-    # Step 2: Create the 3D transformation matrix based on the 2D matrix and scale factor
-    # Map the transformation from XY to XZ (i.e., switch Y with Z)
+    blueprint_points = filter_duplicate_with_lowest_y(blueprint_points)
+    scan_points = filter_duplicate_with_lowest_y(scan_points)
+
+    # Create the 3D transformation matrix based on the 2D matrix and scale factor
     transformation_matrix_3d = np.array([
         [transformation_matrix_2d[0][0], 0, transformation_matrix_2d[0][1], transformation_matrix_2d[0][2] / scale_factor],
-        [0, 1, 0, 0],  # No change in the Y (height) axis
+        [0, 1, 0, 0],
         [transformation_matrix_2d[1][0], 0, transformation_matrix_2d[1][1], transformation_matrix_2d[1][2] / scale_factor]
     ])
 
@@ -479,18 +582,22 @@ def apply_transformation_and_visualize(blueprint_file, scan_file, scale_factor, 
     print("Resulting 3D Transformation Matrix:")
     print(transformation_matrix_3d)
 
-    # Step 3: Apply the transformation to the scan point cloud without X-axis inversion
+    # Apply the transformation to the scan point cloud without X-axis inversion
     transformed_scan_points = transform_point_cloud_without_x_inversion(scan_points, transformation_matrix_3d)
 
-    # Step 4: Calculate the transformed origin point (0, 0, 0)
-    origin = np.array([0, 0, 0, 1])  # Homogeneous coordinates for the origin
+    # Calculate the transformed origin point (0, 0, 0)
+    origin = np.array([0, 0, 0, 1])
     transformed_origin = transformation_matrix_3d @ origin.T
 
     # Print the transformed origin point
     print(f"Transformed Origin Point: {transformed_origin[:3]}")
 
-    # Step 5: Visualize the point clouds, grid, and transformed origin point using PyVista
-    visualize_point_clouds_with_grid(blueprint_points, transformed_scan_points, scan_points, transformed_origin[:3])
+    # Extract the direction vector for the arrow from the transformation matrix
+    direction_vector = transformation_matrix_3d[:3, 0]  # X direction component of the rotation matrix
+
+    # Visualize the point clouds in the XZ plane using Matplotlib with the rotated arrow
+    visualize_point_clouds_with_grid(blueprint_points, transformed_scan_points, transformed_origin[:3], direction_vector, aligned_image_file)
 
 # Apply the transformation and visualize
-apply_transformation_and_visualize(xyz_file_path_blueprint, xyz_file_path_scan, scale_factor, xyz_transformation_matrix)
+apply_transformation_and_visualize(xyz_file_path_blueprint, xyz_file_path_scan, aligned_image_path, scale_factor, xyz_transformation_matrix)
+
