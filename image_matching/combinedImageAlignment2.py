@@ -90,10 +90,7 @@ def xyz_to_image(points, output_image_path, boundary, error_pixels, padding_pixe
     # Return None if not a blueprint
     return None
 
-def error_pixels_from_image(xyz_file_path, output_image_path, boundary, padding_pixels=50, image_size=(500, 500)):
-    # Read XYZ data
-    points = read_xyz(xyz_file_path)
-
+def error_pixels_from_image(points, output_image_path, boundary, padding_pixels=50, image_size=(500, 500)):
     # Find the point with the maximum y-value
     max_y_index = np.argmax(points[:, 1])
     max_y_point = points[max_y_index]  # Extract the single point with the max y-value
@@ -377,7 +374,7 @@ min_z_blueprint, max_z_blueprint = np.min(blueprint_points[:, 2]), np.max(bluepr
 boundary = (min_x_blueprint, max_x_blueprint, min_z_blueprint, max_z_blueprint)
 
 # Generate an image for the blueprint and calculate error pixels
-error_pixels = error_pixels_from_image(xyz_file_path_blueprint, output_image_path_error_pixels, boundary, padding_pixels=50, image_size=(500, 500))
+error_pixels = error_pixels_from_image(blueprint_points, output_image_path_error_pixels, boundary, padding_pixels=50, image_size=(500, 500))
 
 # Generate an image for the blueprint and calculate pixels per unit
 scale_factor = xyz_to_image(blueprint_points, output_image_path_blueprint, boundary, error_pixels, padding_pixels=50, image_size=(500, 500), is_blueprint=True)
