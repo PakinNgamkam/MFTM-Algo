@@ -18,6 +18,9 @@ def xyz_to_image(points, output_image_path, boundary, error_pixels, padding_pixe
     Converts an XYZ file to an image and optionally calculates pixels per unit if it's a blueprint.
     """
 
+    # Create a copy of the points array to prevent modification of the original points
+    points = points.copy()
+
     # Invert the x-axis for left-handed coordinate system
     points[:, 0] = -points[:, 0]  # Invert the x-axis
 
@@ -307,7 +310,7 @@ def visualize_point_clouds_with_grid(pcd1, pcd2, transformed_origin, direction_v
     )
 
     # Flip the X-axis so negative is on the right
-    # plt.gca().invert_xaxis()
+    plt.gca().invert_xaxis()
     
     # Set equal scaling for X and Z axes and maintain a square aspect ratio
     plt.axis('equal')
@@ -358,9 +361,9 @@ def apply_transformation_and_visualize(blueprint_points, scan_points, aligned_im
     visualize_point_clouds_with_grid(blueprint_points, transformed_scan_points, transformed_origin[:3], direction_vector, aligned_image_file)
 
 xyz_file_path_blueprint = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/firstFloorSouth_even.xyz' # secondFloor_even.xyz' # firstFloorSouth_even.xyz' # room1(2)_even.xyz'
-xyz_file_path_scan = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/SameSpotNorth_even.xyz' # SameSpotWest_even.xyz' # KitchenNorth_even.xyz' # RoomSecondFloor_even.xyz' # room1_testcase5_even.xyz'
+xyz_file_path_scan = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/SameSpotWest_even.xyz' # SameSpotWest_even.xyz' # KitchenNorth_even.xyz' # RoomSecondFloor_even.xyz' # room1_testcase5_even.xyz'
 output_image_path_blueprint = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/firstFloorSouth_even_output.png' # firstFloorSouth_even_output.png' # secondFloor_even_output.png' # room1(2)_even_output.png'
-output_image_path_scan = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/SameSpotNorth_even_output.png' # SameSpotWest_even_output.png' # KitchenNorth_even_output.png' # RoomSecondFloor_even_output.png' # room1_testcase5_even_output.png'
+output_image_path_scan = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/SameSpotWest_even_output.png' # SameSpotWest_even_output.png' # KitchenNorth_even_output.png' # RoomSecondFloor_even_output.png' # room1_testcase5_even_output.png'
 output_image_path_error_pixels = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/error_pixels.png'
 aligned_image_path = 'C:/Users/pakin/OneDrive/Desktop/test/image_matching/aligned.png'
 
